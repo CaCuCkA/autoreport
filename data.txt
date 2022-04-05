@@ -1,0 +1,667 @@
+Одновимірні масиви даних бібліотеки STL
+2
++
+Заданий масив А дійсних чисел (елементи масиву задати під час опису у
+списку ініціалізації). Визначити кількість ділянок (серій), на яких елементи
+масиву утворюють арифметичну прогресію (для кожної ділянки різниця
+прогресії може змінюватися). Вивести на екран масив, його поточний розмір а
+також отриману кількість ділянок (серій).
++
+FloatVector - вектор дійсних чисел
++
+count - к-сть ділянок аріфметичної прогресії, ціле число
+Довжина вектора, ціле число.
++
++
+FloatVector = |FloatVector|, it = |it|
+Доки it + 1 != FloatVector.end():
+	a1 = *it;	
+	advance(it, 1);
+	a2 = *it;
+	temp_diff = a2 - a1;
+	double gl_diff = temp_diff - diff;
+	Якщо gl_diff  < MIN_VALUE та -MIN_VALUE < gl_diff, то:
+		temp_count = temp_count + 1;
+	Якщо (gl_diff > MIN_VALUE || it + 1 == FloatVector.end()) та  temp_count > 0, то:
+		count = count + 1;
+		temp_count = 0;
+	diff = temp_diff;
++
+C:\Users\vanil\Downloads\1.png
+3
++
+Для тестування заданий массив:
+(1.1, 2.2, 3.3, 5.7,
+5.9, 6.1, 6.3, 6.5,
+6.7, 7.3, 7.6, 7.9,
+8.2, 8.8, 8.9)
+Маємо отримати:
+count = 3
+size = 15
++
++
+Для тестування заданий массив:
+(1.1, 2.2, 3.3, 5.7,
+5.9, 6.1, 6.3)
+Маємо отримати:
+count = 2
+size = 7
++
++
+Для тестування заданий массив:
+(1.1, 2.2, 3.3)
+Маємо отримати:
+count = 1
+size = 3
++
++
+#include <iostream>
+#include <vector>
+#include <iterator>
+#define MIN_VALUE 0.000000001
+
+using namespace std;
+
+int main()
+{
+	int count = 0;
+	int temp_count = 0;
+	double a1, a2, diff = 0, temp_diff = 0;
+
+
+	vector<double> FloatVector = {1.1, 2.2, 3.3, 5.7, 5.9, 6.1, 6.3, 6.5, 6.7, 7.3, 7.6, 7.9, 8.2,  8.8, 8.9};
+
+	vector<double>::iterator it = FloatVector.begin();
+	while (it + 1 != FloatVector.end())
+	{
+		a1 = *it;
+		
+		advance(it, 1);
+
+		a2 = *it;
+
+		temp_diff = a2 - a1;
+
+		double gl_diff = temp_diff - diff;
+
+		if (gl_diff  < MIN_VALUE && -MIN_VALUE < gl_diff)
+		{
+			temp_count++;
+			//cout << temp_count << endl;
+		}
+
+
+		if ((gl_diff > MIN_VALUE || it + 1 == FloatVector.end()) &&  temp_count > 0)
+		{
+			count++;
+			temp_count = 0;
+		}
+
+		diff = temp_diff;
+
+	}
+
+	cout << "Array length: " << FloatVector.size() << endl;
+	cout << "Amount of lands: " << count << endl;
+	return 0;
+}
++
++
+Заданий масив А цілих з К елементів (К та елементи масиву вводяться
+користувачем). Вивести на екран масив А та новий сформований масив В, в
+якому записані всі парні елементи з масиву А в зворотному порядку їх
+слідування.
++
+K - к-сть елементів в масиві А
++
+firstVector - масив цілих чисел;
+secondVector - масив парних цілих чисел;
++
++
+К = |K|
+Для i = 0, firstVector.size():
+	firstVector[i] = |firstVector[i]|
+
+Для i = 0, K:
+	Якщо {firstVector[i] \ 2} = 0, то:
+		додавання firstVector[i] до масива secondVector
+
+Для i = secondVector.size() - 1, 0:
+	виведення secondVector[i]
+
+Для i = 0, firstVector.size():
+	виведення firstVector[i]
++
+C:\Users\vanil\Downloads\2.png
+3
++
+Для тестування заданий массив:
+(1, 2, 3, 4,
+ 5, 6, 7, 8,
+ 9, 10, 11, 12,
+ 13, 14, 15)
+Маємо отримати:
+(1, 2, 3, 4,
+ 5, 6, 7, 8,
+ 9, 10, 11, 12,
+ 13, 14, 15)
+
+(14, 12, 10, 8,
+ 6, 4, 2)
++
++
+Для тестування заданий массив:
+(0, 222, 32, 4,
+ 51, 63, 71, 84)
+Маємо отримати:
+(0, 222, 32, 4,
+ 51, 63, 71, 84)
+
+(84, 4, 32, 222,
+ 0)
++
++
+Для тестування заданий массив:
+(1, 2, -2, 11,
+ 12, 16, 80, 99
+ 100)
+Маємо отримати:
+(1, 2, -2, 11,
+ 12, 16, 80, 99
+ 100)
+
+(100, 80, 16, 12,
+ -2, 2)
++
++
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void displayVector(vector<int>);
+void reverseDisplayVector(vector<int>);
+
+int main()
+{
+	int K;
+	int element;
+	
+	
+	cout << "Enter amount of elements: ";
+	cin >> K;
+	vector<int> firstVector(K);
+
+
+
+	for (int i = 0; i < firstVector.size(); i++)
+	{
+		cout << "Enter " << i + 1 << "th element: ";
+		cin >> firstVector[i];
+
+	}
+	cout << endl << "Massive is full!" << endl;
+
+	vector<int> secondVector;
+
+	for (int i = 0; i < K; i++)
+	{
+		if (!(firstVector[i]%2))
+			secondVector.push_back(firstVector[i]);
+	}
+	
+	cout << endl << "First vector: " << endl;
+	displayVector(firstVector);
+
+	cout << "Second modified vector: " << endl;
+	reverseDisplayVector(secondVector);
+
+	return 0;
+}
+
+
+void reverseDisplayVector(vector<int> vec)
+{
+	int stop = 0;
+	for (unsigned int i = vec.size() - 1;  !stop ; i--)
+	{
+		
+		if (!(i % 4))
+			cout << endl;
+		cout << vec[i] << '\t';
+		if (i == 0) stop = 1;
+	}
+	cout << endl << endl;
+}
+
+
+void displayVector(vector<int> vec)
+{
+	for (unsigned int i = 0; i < vec.size(); i++)
+	{
+		if (!(i % 4))
+			cout << endl;
+		cout << vec[i] << '\t';
+	}
+	cout << endl << endl;
+}
++
++
+З використанням генератора випадкових величин утворити масив А
+(кількість елементів масиву та діапазон значень для елементів задає
+користувач). Реалізувати зсув елементів масиву вправо на К позицій (К задає
+користувач). Зсув реалізувати двома способами: 1) поступово рухаючи
+елементи масиву; 2) з використанням методів класу вектор. Елементи, що
+“витискаються” з масиву втрачаються.
++
++
+firstValue, secondValue -  діапазон значень для елементів масиву intVector, цілі числа
+size - кількість елементів масивуб ціло число
+К - к-сть зсувів елементів масиву вправо, ціле число.
++
+intVector - масив цілих чисел.
++
+srand(time(0))
+
+Для і, size:
+	element = firstValue + {rand() \ (secondValue + 1)}
+	додавання element до масива intVector
+	виведення element
+
+Для і = 0, К:
+	Для j = intVector.size() - 1, 0:
+		intVector[j] = intVector[j - 1]
+	intVector[0] = 0
+
+Для і, size:
+	виведення intVector[i]
++
+C:\Users\vanil\Downloads\3.png
+3
++
+Для тестування заданий массив:
++
++
+Для тестування заданий массив:
++
++
+Для тестування заданий массив:
++
++
+#include <iostream>
+#include <vector>
+#include <cstdlib>
+#include<ctime>
+#include <iterator>
+
+using namespace std;
+
+vector<int>initializeVector(vector<int> &vec, int, int, int);
+void displayVector(vector<int>);
+void rightVShift(vector<int>& vec, int);
+//void rightCShift(vector<int>& vec, int, int);
+
+int main()
+{
+	int size, firstValue, secondValue, K;
+	vector<int> intVector;
+
+	cout << "Enter first and last borders: ";
+	cin >> firstValue >> secondValue;
+
+	cout << "Enter vector`s size: ";
+	cin >> size;
+
+	cout << "Vector is done: " << endl;
+	initializeVector(intVector, firstValue, secondValue, size);
+
+	cout << intVector.size() << endl;
+
+	cout << "Enter amount of repeat: ";
+	cin >> K;
+
+	rightVShift(intVector, K);
+	//rightCShift(intVector, K, size - 1);
+	displayVector(intVector);
+	return 0;
+}
+
+vector<int>initializeVector(vector<int> &vec, int fB, int sB, int size)
+{
+	srand(time(0));
+
+	for (int i = 0; i < size; i++)
+	{
+		int element = fB + rand() % (sB + 1);
+		vec.push_back(element);
+		if (!(i % 4))
+			cout << endl;
+		cout << vec[i] << '\t';
+	}
+	cout << endl << endl;
+	
+	return vec;
+}
+
+
+
+void displayVector(vector<int> vec)
+{
+	for (unsigned int i = 0; i < vec.size(); i++)
+	{
+		if (!(i % 4))
+			cout << endl;
+		cout << vec[i] << '\t';
+	}
+	cout << endl << endl;
+}
+
+// using vector`s functions 
+
+void rightVShift(vector<int>& vec, int K)
+{
+	for (int i = 0; i < K; i++)
+	{
+		for (vector<int>::reverse_iterator it = vec.rbegin(); it != vec.rend() - 1; it++)
+		{
+			*it = *(it + 1);
+		}
+		vec.front() = 0;
+	}
+}
+
+
+// using classical method 
+/*
+void rightCShift(vector<int>& vec, int K, int size)
+{
+	for (int i = 0; i < K; i++)
+	{
+		for (int j = size - 1; j >= 0; j--)
+		{
+			vec[j] = vec[j - 1];
+		}
+		vec[0] = 0;
+	}
+}
+*/
++
++
+Заданий масив А, що містить впорядковані за спаданням цілі числа (числа
+можуть повторюватися). Видалити з масиву елементи, що повторюються,
+залишивши лише по одному входженню повторюваних елементів, після
+від’ємних елементів вставити 0. Вивести на екран поточний розмір, ємність та
+максимальний розмір вектора до видалення елементів, після видалення та
+після вставки.
++
+intVector - масив цілих чисел
++
+intVector.size() - довжина масива, ціле число
+intVector.capacity() - об'єм масива, ціле число
+intVector.max_size() - максимальна к-сть елементів масива, ціле число
++
++
+intVector = |intVector|
+
+Для і = 0, intVector.size() - 1:
+	Якщо intVector[i] = intVector[i + 1], то:
+		Видалення елемента intVector[i]
+
+Виведення довжина масива
+Виведення об'єм масив
+Виведення максимальна к-сть елементів масива
+
+Для і = 0, intVector.size():
+	Вставка 0 після intVector[i];
+			i = i + 1;
+
+Виведення довжина масива
+Виведення об'єм масив
+Виведення максимальна к-сть елементів масива
++
+C:\Users\vanil\Downloads\4.png
+3
++
+Для тестування заданий массив:
+(5, 4, 3, 3,
+-1, -2, -2, -9)
+Маємо отримати:
+(5, 4, 3, -1,
+ 0, -2, 0, -9,
+ 0)
++
++
+Для тестування заданий массив:
+(10, 10, 6, 5,
+0, -1)
+Маємо отримати:
+(10, 6, 5, 0,
+ -1, 0)
++
++
+Для тестування заданий массив:
+(-1, -1, -2, -3,
+-3)
+Маємо отримати:
+(-1, 0, -2, 0,
+ -3, 0)
++
++
+#include <iostream>
+#include <vector>
+#include <iterator>
+#include <stack>
+
+using namespace std;
+
+void displayVector(vector<int> vec);
+
+int main()
+{
+	int temp;
+	vector<int> intVector = { 5, 4, 3, 3, -1, -2, -2, -9 };
+
+	cout << "Vector`s length: " << intVector.size() << endl;
+	cout << "Vector`s capacity: " << intVector.capacity() << endl;
+	cout << "Vector max_size() before modifications: " << intVector.max_size() << endl;
+	cout << "-------------------------------------------------" << endl;
+	
+/*
+	for (int i = 0; i + 1 < intVector.size(); i++)
+	{
+		if (intVector[i + 1] > intVector[i])
+		{
+			temp = intVector[i];
+			intVector[i] = intVector[i + 1];
+			intVector[i + 1] = temp;
+		}
+	}
+*/
+	//displayVector(intVector);
+
+	for (int i = 0; i < intVector.size() - 1; i++)
+	{
+		if (intVector[i] == intVector[i + 1])
+		{
+			intVector.erase(intVector.begin() + i);
+		}
+			
+	}
+
+	displayVector(intVector);
+	cout << "-------------------------------------------------" << endl;
+	cout << "Vector`s length after deleting same elements: " << intVector.size() << endl;
+	cout << "Vector`s capacity after deleting same elements: " << intVector.capacity() << endl;
+	cout << "Vector`s max_size() after deleting same elements: " << intVector.max_size() << endl;
+	cout << "-------------------------------------------------" << endl;
+
+	for (int i = 0; i < intVector.size(); i++)
+	{
+		if (intVector[i] < 0)
+		{
+			intVector.insert(intVector.begin() + i + 1, 0);
+			++i;
+		}
+			
+	}
+	
+	displayVector(intVector);
+
+	cout << "-------------------------------------------------" << endl;
+	cout << "Vector`s length after adding zeros after negative elements: " << intVector.size() << endl;
+	cout << "Vector`s capacity after adding zeros after negative elements: " << intVector.capacity() << endl;
+	cout << "Vector`s max_size() after adding zeros after negative elements: " << intVector.max_size() << endl;
+	cout << "-------------------------------------------------" << endl;
+
+	return 0;
+}
+
+
+
+void displayVector(vector<int> vec)
+{
+	for (unsigned int i = 0; i < vec.size(); i++)
+	{
+		if (!(i % 4))
+			cout << endl;
+		cout << vec[i] << '\t';
+	}
+	cout << endl << endl;
+}
++
++
+Задані масиви А та В, що містять впорядковані за зростанням дійсні числа.
+Утворити масив С, що є об’єднанням масивів А та В зі збереженням
+впорядкованості елементів (самостійно розібрати алгоритм злиття).
++
+А, В - масиви цілих числе
+С - масив цілих чисел
++
+А = |A|
+B = |B|
+
+i = 0, j =0, k = 0
+
+size = A.size() + B.size()
+
+Доки j < B.size() та  < A.size():
+	Якщо A[i] < B[j], то:
+		C[k] = A[i]
+		i = i + 1
+	Інакше:
+		C[k] = B[j]
+		j = j + 1
+	k = k + 1
+
+Для і, A.size():
+	C[k] = A[i]	
+
+Для j, B.size():
+	C[k] = B[j]
+
+Для і = 0, С.size():
+	виведення С.size()
++
+C:\Users\vanil\Downloads\5.png
+3
++
+Для тестування заданий массив:
+(1, 2, 3, 4,
+ 5, 6, 12)
+
+(-3, -2, -1, 0,
+ 9)
+Маємо отримати:
+(-3, -2, -1, 0,
+ 1, 2, 3, 4,
+ 5, 6, 9, 12)
++
++
+Для тестування заданий массив:
+(1, 2, 3, 4,
+ 5, 11)
+
+(-7, -4, 12, 20)
+Маємо отримати:
+(-7, -4, 1, 2,
+ 3, 4, 5, 11
+ 12, 20)
++
++
+Для тестування заданий массив:
+	(11, 22, 33, 54)
+
+	(-3, -2, -1, 0,
+ 	99)
+Маємо отримати:
+	(-3, -2, -1, 0,
+ 	11, 22, 33, 54,
+ 	99)
++
++
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void displayVector(vector<int>);
+
+int main()
+{
+	int size;
+	int i = 0, k = 0, j = 0;
+
+	vector<int> A = { 1, 2, 3, 4, 5, 6, 12};
+	vector<int> B = { -3, -2, -1, 0, 9 };
+
+	size = A.size() + B.size();
+
+	vector<int> C(size);
+
+	while (j < B.size() && i < A.size())
+	{
+		if (A[i] < B[j])
+		{
+			C[k] = A[i];
+			i++;
+		}
+
+		else
+		{
+			C[k] = B[j];
+			++j;
+		}
+
+		k++;
+	}
+
+	
+	for (; i < A.size(); i++, k++)
+		C[k] = A[i];
+	for (; j < B.size(); j++, k++)
+		C[k] = B[j];
+
+
+	cout << "First vector: " << endl;
+	displayVector(A);
+
+	cout << "Second vector: " << endl;
+	displayVector(B);
+
+	cout << "Third vector: " << endl;
+	displayVector(C);
+
+	return 0;
+}
+
+void displayVector(vector<int> vec)
+{
+	for (unsigned int i = 0; i < vec.size(); i++)
+	{
+		if (!(i % 4))
+			cout << endl;
+		cout << vec[i] << '\t';
+	}
+	cout << endl << endl;
+}
++
