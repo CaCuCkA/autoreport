@@ -29,6 +29,7 @@ Don`t forget enter count of tests. Program will not understand
 how many tests should be in your task. Example:
 <img src="file:///C:\Users\vanil\Desktop\2.jpg">
 
+
 3. You should enter FULL path to your picture if it is not in 
 a same folder with your file. 
     * When it is not in a same folder.
