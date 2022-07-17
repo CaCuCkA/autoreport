@@ -3,7 +3,7 @@ ___
 Programm create report for your programm code. All what you need is to 
 create file with data, which you want to add to your project.
 
-![](.../images/report.jpg)
+![](https://github.com/CaCuCkA/autoreport/blob/main/images/report.jpg)
 ### Steps
 
 1. Create file with data. (File with rules for adding data - DATARULE.md)
